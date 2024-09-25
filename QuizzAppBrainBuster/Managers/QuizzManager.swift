@@ -13,9 +13,9 @@ class QuizzManager: ObservableObject {
     @Published var shuffledCapitals: [String] = []
     @Published var currentQuestion: Int = 0
     @Published var selectedCapital: String = ""
+    @Published var correctCapital: String = ""
     
     var score = 0
-    var questionNumber = (0..<5).randomElement()
     
     let quiz = [
         Countries(country: "Spain", capital: "Madrid"),
@@ -25,6 +25,11 @@ class QuizzManager: ObservableObject {
         Countries(country: "Italy", capital: "Rome"),
         Countries(country: "Netherlands", capital: "Amsterdam")
     ].shuffled()
+    
+    init() {
+        self.correctCapital = getCorrectCapital()
+        shuffleCapitals()
+    }
     
     func getCountry() -> String {
         return quiz[currentQuestion].country
@@ -53,6 +58,7 @@ class QuizzManager: ObservableObject {
             currentQuestion = 0
             print("try again")
         }
+        correctCapital = getCorrectCapital()
         shuffleCapitals()
     }
     
@@ -65,6 +71,12 @@ class QuizzManager: ObservableObject {
         } else {
             return .lightPrincipalPurple
         }
+    }
+    
+    func getFirstLetter () -> String {
+        let correctCapital = correctCapital
+        print(correctCapital)
+        return correctCapital.isEmpty ? "" : String(correctCapital.prefix(1))
     }
    
 }

@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct PopupView: View {
+    @ObservedObject var quizzManager = QuizzManager()
+    
     var body: some View {
         ZStack(alignment: .center) {
             RoundedRectangle(cornerRadius: 30)
@@ -18,7 +20,7 @@ struct PopupView: View {
                     .foregroundStyle(Color.principalPurple)
                     .font(.system(size: 20))
                 
-                Text("The capital start with the letter A")
+                Text("The capital start with the letter \(quizzManager.getFirstLetter())")
                     .frame(width: 240, height: 100)
                     .font(.system(size: 25).italic().bold())
                     .foregroundStyle(Color.principalPurple)
@@ -34,5 +36,5 @@ struct PopupView: View {
 }
 
 #Preview {
-    PopupView()
+    PopupView(quizzManager: QuizzManager())
 }

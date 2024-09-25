@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct QuizzView: View {
-    @ObservedObject var quizzManager = QuizzManager()
+    @StateObject var quizzManager = QuizzManager()
     @State private var shuffledCapitals: [String] = []
     @State private var score: Int = 0
     @State private var isDisabled = false
@@ -20,8 +20,6 @@ struct QuizzView: View {
     
     var body: some View {
         ZStack {
-            
-            
             VStack (alignment: .center, spacing: 180) {
                 HStack {
                     Text("Score: ")
@@ -57,11 +55,10 @@ struct QuizzView: View {
                         ForEach(quizzManager.getCapitals(), id: \.self) { capital in
                             Button(action: {
                                 quizzManager.selectedCapital = capital
-                                let correctCapital = quizzManager.getCorrectCapital()
-                                print(correctCapital)
+                                print(quizzManager.correctCapital)
                                 print(quizzManager.selectedCapital)
                                 
-                                if quizzManager.selectedCapital == correctCapital {
+                                if quizzManager.selectedCapital == quizzManager.correctCapital {
                                     print("Nice job!")
                                     score += 1
                                     
@@ -162,7 +159,7 @@ struct QuizzView: View {
             
             if self.popUpIsShowing {
                 GeometryReader { geometry in
-                    PopupView()
+                    PopupView(quizzManager: quizzManager)
                         .background(.clear)
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                         .padding(.horizontal, 35)
